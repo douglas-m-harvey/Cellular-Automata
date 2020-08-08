@@ -1,5 +1,5 @@
-# https://stackoverflow.com/questions/17212722/matplotlib-imshow-how-to-animate
-# https://www.geeksforgeeks.org/conways-game-life-python-implementation/
+# https://www.conwaylife.com/wiki/List_of_Life-like_cellular_automata
+# http://www.mirekw.com/ca/rullex_life.html
 
 
 import numpy as np
@@ -9,31 +9,34 @@ from itertools import product
 import templates as tm
 
 
-fps = 8
-nSeconds = 16
-    
-x, y = 40, 40
-B = [3]
-S = [2, 3]
+fps = 24
+nSeconds = 8
+save = False
 
-# startGrid = np.random.choice([0, 0, 1], (x, y))
-startGrid = np.zeros((x, y))
+# Rule in survival/birth format.
+rule = "23/3"
+# Convert the rulestring into a pair of lists.
+survival = [int(char) for char in rule.split("/")[0]]
+birth = [int(char) for char in rule.split("/")[1]]
 
-tm.addGlider(6, 6, startGrid)
-snapshots = [startGrid]  
+# Define the starting grid size and any initial shapes.
+size = (80, 80)
+startGrid = np.random.choice([0, 0, 1], size)
+
 
 # Define the rules and make the images! 
+snapshots = [startGrid]
 for n in range(nSeconds*fps - 1):
     image = snapshots[n].copy()
-    newImage = np.zeros((x, y))
-    for i, j in product(range(x), range(y)):
-        if x - 1 > i > 0 and y - 1 > j > 0:
-            smallArray = image.copy()[(i-1):(i+2), (j-1):(j+2)]
+    newImage = np.zeros(size)
+    for i, j in product(range(size[0]), range(size[1])):
+        if size[0] - 1 > i > 0 and size[1] - 1 > j > 0:
+            smallArray = image.copy()[i - 1:i + 2, j - 1:j + 2]
             smallArray[1][1] = 0
             neighbours = np.sum(smallArray)
-            if image[i][j] == 0 and neighbours in B:
+            if image[i][j] == 0 and neighbours in birth:
                 newImage[i][j] = 1
-            elif image[i][j] == 1 and neighbours in S:
+            elif image[i][j] == 1 and neighbours in survival:
                 newImage[i][j] = 1
             else:
                 newImage[i][j] = 0
@@ -49,4 +52,5 @@ def animate_func(i):
     im.set_array(snapshots[i])
     return [im]
 anim = FuncAnimation(fig, animate_func, frames = nSeconds*fps, interval = 1000/fps)
-# anim.save('test_anim.mp4', fps=fps, extra_args=['-vcodec', 'libx264'])
+if save is True:
+    anim.save('test_anim.mp4', fps=fps, extra_args=['-vcodec', 'libx264'])

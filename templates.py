@@ -1,4 +1,11 @@
 import numpy as np
+
+
+def addBox(i, j, x, y, grid):
+    """adds a box of size (x, y) with the top left cell at (i, j)"""
+    box = np.ones((x, y))
+    
+    grid[i:i + x, j:j + y] = box
     
 
 def addGlider(i, j, grid): 
@@ -7,7 +14,7 @@ def addGlider(i, j, grid):
     glider = np.array([[0, 0, 1],  
                        [1, 0, 1],  
                        [0, 1, 1]]) 
-    grid[i:i+3, j:j+3] = glider
+    grid[i:i + 3, j:j + 3] = glider
 
 
 def addGosperGliderGun(i, j, grid): 
@@ -37,4 +44,4 @@ def addGosperGliderGun(i, j, grid):
     gun[3][35] = gun[3][36] = 1
     gun[4][35] = gun[4][36] = 1
   
-    grid[i:i+11, j:j+38] = gun 
+    grid[i:i + 11, j:j + 38] = gun 

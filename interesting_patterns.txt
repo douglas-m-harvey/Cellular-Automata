@@ -1,0 +1,9 @@
+Weird alien guy:
+
+rule = "235678/3678"
+startGrid = np.zeros(size)
+tm.addBox(40, 40, 13, 19, startGrid)
+tm.addBox(8, 24, 18, 27, startGrid)
+tm.addBox(60, 14, 11, 7, startGrid)
+
+

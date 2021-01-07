@@ -9,12 +9,12 @@ from itertools import product
 import templates as tm
 
 
-fps = 24
+fps = 16
 nSeconds = 8
-save = False
+saveFile = False
 
 # Rule in survival/birth format.
-rule = "23/3"
+rule = "245/368"
 # Convert the rulestring into a pair of lists.
 survival = [int(char) for char in rule.split("/")[0]]
 birth = [int(char) for char in rule.split("/")[1]]
@@ -45,12 +45,12 @@ for n in range(nSeconds*fps - 1):
 
 
 # This bit animates, not sure how - check animation_example.py
-fig = plt.figure(figsize=(10, 10))            
+fig = plt.figure(figsize = (12, 12))            
 a = snapshots[0]
 im = plt.imshow(a, interpolation = 'none', aspect = 'auto', vmin = 0, vmax = 1)
 def animate_func(i):
     im.set_array(snapshots[i])
     return [im]
 anim = FuncAnimation(fig, animate_func, frames = nSeconds*fps, interval = 1000/fps)
-if save is True:
-    anim.save('test_anim.mp4', fps=fps, extra_args=['-vcodec', 'libx264'])
+if saveFile is True:
+    anim.save('test_anim.mp4', fps = fps, extra_args = ['-vcodec', 'libx264'])
